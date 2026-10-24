@@ -66,7 +66,10 @@ export class Game {
   private kick = 0;
   private pausedFrom: 'playing' | 'clearing' = 'playing';
   constructor(private random = Math.random) { this.fillQueue(); }
-  get dropInterval() { const level = Math.min(this.level, 20); return Math.max(65, 1000 * Math.pow(0.8 - (level - 1) * 0.007, level - 1)); }
+  get dropInterval() {
+    // Each level reduces the remaining interval by 20%, approaching 50ms smoothly.
+    return 50 + 950 * Math.pow(0.8, Math.max(0, this.level - 1));
+  }
   fillQueue() {
     while (this.queue.length < 7) {
       const bag = [...TYPES];

@@ -36,6 +36,32 @@ describe('movement, SRS, and locking',()=>{
   it('soft drop adds one point per row',()=>{
     const g=started();expect(g.move(0,1,true)).toBe(true);expect(g.score).toBe(1);
   });
+  it('keeps increasing gravity on every level, including high levels',()=>{
+    const g=started();let previous=Infinity;
+    for(let level=1;level<=100;level++){
+      g.level=level;
+      expect(g.dropInterval).toBeLessThan(previous);
+      expect(g.dropInterval).toBeGreaterThan(50);
+      expect(Number.isFinite(g.dropInterval)).toBe(true);
+      previous=g.dropInterval;
+    }
+  });
+  it('applies the faster gravity to actual falling blocks',()=>{
+    const levelOne=started(),levelTwo=started();
+    for(const g of [levelOne,levelTwo])g.active={kind:'O',x:4,y:0,rotation:0};
+    levelTwo.level=2;
+    advance(levelOne,820);advance(levelTwo,820);
+    expect(levelOne.active?.y).toBe(0);
+    expect(levelTwo.active?.y).toBe(1);
+  });
+  it('continues accelerating actual falls after the previous high-level speed cap',()=>{
+    const levelTen=started(),levelTwenty=started();
+    for(const g of [levelTen,levelTwenty])g.active={kind:'O',x:4,y:0,rotation:0};
+    levelTen.level=10;levelTwenty.level=20;
+    advance(levelTen,500);advance(levelTwenty,500);
+    expect(levelTen.active?.y).toBe(2);
+    expect(levelTwenty.active?.y).toBe(7);
+  });
   it('allows 500ms to adjust a grounded piece before locking',()=>{
     const g=started();g.active={kind:'O',x:4,y:18,rotation:0};advance(g,490);expect(g.board[19][4]).toBeNull();advance(g,10);expect(g.board[19][4]).toBe('O');
   });
