@@ -53,3 +53,25 @@ npm run preview
 - `tokens.css`, `src/style.css`: 디자인 토큰, daisyUI와 반응형 스타일
 
 기본 플레이 동작은 [공식 Tetris 조작 안내](https://playstudios.helpshift.com/hc/en/16-tetris-mobile/faq/2944-tetris-controls/)를 참고했습니다. 이 프로젝트는 테마를 참고해 만든 독립 구현입니다.
+
+## FTP 자동 배포
+
+`master`에 푸시하면 GitHub Actions가 의존성 설치 → 규칙 테스트 → 프로덕션 빌드 → FTP 배포를 실행합니다. Actions 탭에서 `Build and deploy to FTP`를 수동 실행할 수도 있습니다.
+
+배포 대상은 `tetrisman.iwinv.net`의 `public_html`입니다. 저장소의 Settings → Secrets and variables → Actions에 아래 Repository secrets를 등록합니다. 접속 비밀번호는 코드·빌드 결과물에 포함하지 않습니다.
+
+| Secret | 용도 |
+| --- | --- |
+| `FTP_HOST` | FTP 호스트 |
+| `FTP_USERNAME` | FTP 계정 |
+| `FTP_PASSWORD` | FTP 비밀번호 |
+| `FTP_REMOTE_DIR` | `public_html` |
+
+배포 스크립트는 Python 표준 라이브러리만 사용하며 `dist/`의 파일만 업로드합니다. 새 리소스를 먼저 업로드하고, 임시 파일을 이름 변경하는 방식으로 교체한 뒤 `index.html`을 마지막에 게시합니다. 기존 서버 파일과 예전 해시 리소스는 삭제하지 않아 이미 열려 있는 게임이 참조하는 파일을 보존합니다. 동시 배포는 순서대로 실행하고, 마지막에 웹사이트의 HTML이 빌드 결과와 일치하는지 검증합니다.
+
+접속 없이 업로드 파일 목록과 순서를 확인하려면:
+
+```sh
+npm run build
+python3 scripts/deploy_ftp.py --dry-run
+```
