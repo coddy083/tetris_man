@@ -1,0 +1,28 @@
+:root {
+  color-scheme: dark;
+  --color-paper: oklch(14% .027 266);
+  --color-panel: oklch(17% .034 267);
+  --color-board: oklch(12% .029 266);
+  --color-raised: oklch(22% .042 264);
+  --color-ink: oklch(96% .012 260);
+  --color-muted: oklch(70% .035 258);
+  --color-dim: oklch(62% .04 261);
+  --color-rule: oklch(30% .055 263);
+  --color-grid: oklch(23% .045 259);
+  --color-accent: oklch(92% .185 100);
+  --color-blue: oklch(62% .22 260);
+  --color-cyan: oklch(79% .15 218);
+  --color-pink: oklch(77% .16 350);
+  --color-red: oklch(65% .23 25);
+  --color-orange: oklch(77% .18 63);
+  --color-purple: oklch(69% .2 298);
+  --color-mint: oklch(80% .17 160);
+  --color-pupil: oklch(24% .11 268);
+  --font-display: 'Press Start 2P', monospace;
+  --font-body: 'Space Grotesk', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --space-xs: 4px; --space-sm: 8px; --space-md: 16px; --space-lg: 24px; --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px;
+  --text-small: 12px; --text-body: 14px; --text-title: 28px;
+  --radius-sm: 6px; --radius-md: 12px;
+  --ease-out: cubic-bezier(.16,1,.3,1); --ease-in: cubic-bezier(.7,0,.84,0); --ease-in-out: cubic-bezier(.65,0,.35,1);
+  --dur-fast: 150ms; --dur-normal: 250ms;
+}
